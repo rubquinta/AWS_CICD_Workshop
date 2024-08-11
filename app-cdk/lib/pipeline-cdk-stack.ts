@@ -96,6 +96,9 @@ export class MyPipelineStack extends cdk.Stack {
         'signer:PutSigningProfile',
         'signer:SignPayload',
         'signer:GetRevocationStatus',
+        'signer:StartSigningJob',
+        'signer:GetSigningProfile',
+        'signer:DescribeSigningJob',
       ],
     });
 
