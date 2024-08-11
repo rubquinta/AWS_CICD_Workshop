@@ -6,16 +6,17 @@ phases:
       nodejs: latest
   pre_build:
     commands:
-      - cd ./my-app
-      - echo Installing npm packages...
-      - npm install
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $IMAGE_REPO_URI
   build:
     commands:
-      - echo run tests...
-      - CI=true npm run test:junit
-reports:
-  jest_reports:
-    files:
-      - junit.xml
-    file-format: JUNITXML
-    base-directory: my-app
+      - cd ./my-app
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t myapp:$IMAGE_TAG .
+      - docker tag myapp:$IMAGE_TAG $IMAGE_REPO_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_REPO_URI:$IMAGE_TAG
