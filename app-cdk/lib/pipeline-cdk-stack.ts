@@ -109,8 +109,8 @@ export class MyPipelineStack extends cdk.Stack {
       actions: [
         new codepipeline_actions.GitHubSourceAction({
           actionName: 'GitHub_Source',
-          owner: 'paulovegaa',
-          repo: 'AWS_CI_CD_Workshop',
+          owner: 'rubquinta',
+          repo: 'AWS_CICD_Workshop',
           branch: 'main', // o la rama que prefieras
           oauthToken: githubSecret.secretValue,
           output: sourceOutput,
@@ -119,6 +119,7 @@ export class MyPipelineStack extends cdk.Stack {
     });
 
     //Agrega la etapa de tetsing
+    
     pipeline.addStage({
       stageName: 'Code-Quality-Testing',
       actions: [
