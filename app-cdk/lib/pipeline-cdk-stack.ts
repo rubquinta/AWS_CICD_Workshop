@@ -20,6 +20,9 @@ export class MyPipelineStack extends cdk.Stack {
     // Recupera el secreto de GitHub
     const githubSecret = secretsmanager.Secret.fromSecretNameV2(this, 'GitHubSecret', 'github/personal_access_token');
 
+    
+
+
     // Crea un proyecto de CodeBuild
     const buildProject = new codebuild.PipelineProject(this, 'BuildProject', {
       environment: {
@@ -77,16 +80,16 @@ export class MyPipelineStack extends cdk.Stack {
     dockerBuild.addToRolePolicy(dockerBuildRolePolicy);
 
     const dockerBuildOutput = new codepipeline.Artifact();
-
+    
     const signerARNParameter = new ssm.StringParameter(this, 'SignerARNParam', {
       parameterName: 'signer-profile-arn',
-      stringValue: 'arn:aws:signer:us-east-2:767397769903:/signing-profiles/ecr_signing_profile',
+      stringValue: '{{Signing Profile ARN}}',
     });
 
     const signerParameterPolicy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [signerARNParameter.parameterArn],
-      actions: ['ssm:GetParameter', 'ssm:GetParameters'],
+      actions: ['ssm:GetParametersByPath', 'ssm:GetParameters'],
     });
 
     const signerPolicy = new iam.PolicyStatement({
