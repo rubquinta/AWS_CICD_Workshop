@@ -86,7 +86,7 @@ export class MyPipelineStack extends cdk.Stack {
     const signerParameterPolicy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [signerARNParameter.parameterArn],
-      actions: ['ssm:GetParametersByPath', 'ssm:GetParameters'],
+      actions: ['ssm:GetParameter', 'ssm:GetParameters'],
     });
 
     const signerPolicy = new iam.PolicyStatement({
